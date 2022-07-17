@@ -9,14 +9,8 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-type CustomClaims struct {
-	Name  string `json:"name,omitempty"`
-	Email string `json:"email,omitempty"`
-	jwt.StandardClaims
-}
-
 func GetToken(user models.User) (string, error) {
-	claims := &CustomClaims{user.Username, user.Email, jwt.StandardClaims{
+	claims := &models.CustomClaims{Name: user.Username, Email: user.Email, StandardClaims: jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
 		Id:        user.Id.String(),
 	}}
